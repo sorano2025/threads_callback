@@ -1,17 +1,19 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Threads Callback</title>
-</head>
-<body>
-<script>
-  (function () {
-    const qs = window.location.search || "";
-    const target = "monday://threads_callback" + qs;
-    window.location.replace(target);
-  })();
-</script>
-Redirecting…
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>threads_callback</title>
+  </head>
+  <body>
+    Redirecting…
+    <script>
+      (function () {
+        var qs = window.location.search || "";
+        // bounce into your app
+        var target = "monday://threads_callback" + qs;
+        window.location.replace(target);
+      })();
+    </script>
+  </body>
 </html>
