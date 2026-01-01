@@ -3,17 +3,37 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>threads_callback</title>
+    <title>Threads Callback</title>
+    <style>
+      body { font-family: -apple-system, system-ui, sans-serif; padding: 24px; line-height: 1.4; }
+      code { background: #f2f2f2; padding: 2px 6px; border-radius: 6px; }
+      button { padding: 12px 16px; font-size: 16px; }
+    </style>
   </head>
   <body>
-    Redirecting…
+    <h2>Redirecting…</h2>
+    <p>If this doesn’t open the app automatically, tap the button:</p>
+    <p><button id="openBtn">Open M.O.N.D.A.Y</button></p>
+
+    <p><strong>Debug</strong></p>
+    <p>Query string: <code id="qs"></code></p>
+    <p>Target: <code id="target"></code></p>
+
     <script>
-      (function () {
-        var qs = window.location.search || "";
-        // bounce into your app
-        var target = "monday://threads_callback" + qs;
-        window.location.replace(target);
-      })();
+      const qs = window.location.search || "";
+      const target = "monday://threads_callback" + qs;
+
+      document.getElementById("qs").textContent = qs;
+      document.getElementById("target").textContent = target;
+
+      document.getElementById("openBtn").onclick = () => {
+        window.location.href = target;
+      };
+
+      // Auto-redirect (best effort)
+      setTimeout(() => {
+        window.location.href = target;
+      }, 250);
     </script>
   </body>
 </html>
