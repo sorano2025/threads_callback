@@ -1,39 +1,30 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Threads Callback</title>
-    <style>
-      body { font-family: -apple-system, system-ui, sans-serif; padding: 24px; line-height: 1.4; }
-      code { background: #f2f2f2; padding: 2px 6px; border-radius: 6px; }
-      button { padding: 12px 16px; font-size: 16px; }
-    </style>
-  </head>
-  <body>
-    <h2>Redirecting…</h2>
-    <p>If this doesn’t open the app automatically, tap the button:</p>
-    <p><button id="openBtn">Open M.O.N.D.A.Y</button></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Redirecting…</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body style="font-family: system-ui; text-align: center; margin-top: 40px;">
+  <h2>Redirecting…</h2>
+  <p>If this does not open the app automatically, tap the button below.</p>
 
-    <p><strong>Debug</strong></p>
-    <p>Query string: <code id="qs"></code></p>
-    <p>Target: <code id="target"></code></p>
+  <button id="openApp" style="font-size:16px;padding:12px 20px;">
+    Open M.O.N.D.A.Y
+  </button>
 
-    <script>
-      const qs = window.location.search || "";
-      const target = "monday://threads_callback" + qs;
+  <script>
+    const params = window.location.search;
+    const target = "monday://threads_callback" + params;
 
-      document.getElementById("qs").textContent = qs;
-      document.getElementById("target").textContent = target;
+    document.getElementById("openApp").onclick = () => {
+      window.location.href = target;
+    };
 
-      document.getElementById("openBtn").onclick = () => {
-        window.location.href = target;
-      };
-
-      // Auto-redirect (best effort)
-      setTimeout(() => {
-        window.location.href = target;
-      }, 250);
-    </script>
-  </body>
+    // Auto-redirect after short delay
+    setTimeout(() => {
+      window.location.href = target;
+    }, 500);
+  </script>
+</body>
 </html>
