@@ -2,28 +2,47 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Threads Callback</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Connecting…</title>
+  <meta http-equiv="refresh" content="2" />
+  <style>
+    body { font-family: -apple-system, system-ui, sans-serif; padding: 24px; }
+    code { word-break: break-all; }
+    a { display:inline-block; margin-top: 16px; padding: 12px 14px; border: 1px solid #ccc; border-radius: 10px; text-decoration:none; }
+  </style>
 </head>
 <body>
-<script>
-  // Forward Threads OAuth params into the iOS app
-  const url = new URL(window.location.href);
-  const code = url.searchParams.get("code") || "";
-  const state = url.searchParams.get("state") || "";
-  const error = url.searchParams.get("error") || "";
-  const error_description = url.searchParams.get("error_description") || "";
+  <h2>Connecting to Monday…</h2>
+  <p>If nothing happens, tap the button below.</p>
+  <a id="openBtn" href="#">Open Monday</a>
+  <p style="margin-top:18px; font-size: 13px; opacity:.8;">
+    Debug: <code id="dbg"></code>
+  </p>
 
-  const target = new URL("monday://threads_callback");
-  if (code) target.searchParams.set("code", code);
-  if (state) target.searchParams.set("state", state);
-  if (error) target.searchParams.set("error", error);
-  if (error_description) target.searchParams.set("error_description", error_description);
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    const state = params.get("state");
+    const error = params.get("error");
+    const errorDesc = params.get("error_description");
 
-  // Kick into the app
-  window.location.replace(target.toString());
-</script>
+    const dbg = document.getElementById("dbg");
+    if (error) {
+      dbg.textContent = `error=${error} desc=${errorDesc || ""}`;
+    } else {
+      dbg.textContent = `code=${code || ""} state=${state || ""}`;
+    }
 
-<p>Redirecting back to the app…</p>
+    // Build app deep link
+    const deepLink = `monday://threads_callback?code=${encodeURIComponent(code || "")}&state=${encodeURIComponent(state || "")}`
+      + (error ? `&error=${encodeURIComponent(error)}&error_description=${encodeURIComponent(errorDesc || "")}` : "");
+
+    const btn = document.getElementById("openBtn");
+    btn.href = deepLink;
+
+    // iPhone often blocks auto-open unless it’s a user gesture,
+    // so we try automatically AND provide the button fallback.
+    setTimeout(() => { window.location.href = deepLink; }, 200);
+  </script>
 </body>
 </html>
